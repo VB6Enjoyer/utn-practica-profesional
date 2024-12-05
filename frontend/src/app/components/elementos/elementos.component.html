@@ -1,0 +1,69 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <div class="close-button-container">
+                <a type="button" (click)="cerrarForm()"><fa-icon [icon]="faClose"></fa-icon></a>
+            </div>
+            <h3>{{ editing ? 'Modificar elemento' : 'Crear nuevo elemento' }}</h3>
+            <label for="idTipoElemento">Tipo:</label>
+            <select id="idTipoElemento" [(ngModel)]="elementoDto.idTipoElemento" name="idTipoElemento" required>
+                <option *ngFor="let tipoElemento of tipoElementos" [value]="tipoElemento.idTipoElemento">{{
+                    tipoElemento.nombre }}</option>
+            </select>
+            <br>
+            <label for="descripcion">Descripción:</label>
+            <input id="descripcion" type="text" [(ngModel)]="elementoDto.descripcion" name="descripcion" required>
+            <br>
+            <label for="cantidad">Cantidad:</label>
+            <input id="cantidad" type="number" [(ngModel)]="elementoDto.cantidad" name="cantidad" required><br>
+
+            <div class="submit-button-container">
+                <button type="submit">{{ editing ? 'Modificar' : 'Crear' }}</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="elementos-container">
+    <h2>Elementos</h2>
+
+    <input type="text" [(ngModel)]="busqueda" placeholder="Buscar elemento" />
+
+    <button (click)="crearElemento()">Crear nuevo elemento</button>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th (click)="ordenarElementos('tipo')"> Tipo<span *ngIf="sortColumn === 'tipo'">{{ sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarElementos('descripcion')">Descripción <span *ngIf="sortColumn === 'descripcion'">{{
+                        sortDirection ? '↑'
+                        : '↓' }}</span></th>
+                <th (click)="ordenarElementos('cantidad')">Cantidad <span *ngIf="sortColumn === 'cantidad'">{{
+                        sortDirection
+                        ?
+                        '↑' : '↓'
+                        }}</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let elemento of filteredElementos">
+                <td class="elementoTipo">{{ elemento.tipo }}</td>
+                <td class="elementoDescripcion">{{ elemento.descripcion }}</td>
+                <td class="elementoCantidad">{{ elemento.cantidad }}</td>
+                <td>
+                    <button (click)="modificarElemento(elemento.idElemento)"><fa-icon
+                            [icon]="faEdit"></fa-icon></button>
+                            <ng-container *ngIf="isAdmin()">
+                                <button (click)="eliminarElemento(elemento.idElemento)"><fa-icon
+                                        [icon]="faTrash"></fa-icon></button>
+                            </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

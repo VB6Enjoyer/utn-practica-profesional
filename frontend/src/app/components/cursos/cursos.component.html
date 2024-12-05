@@ -1,0 +1,195 @@
+<div class="modal" *ngIf="isModalOpen">
+    <div class="modal-content">
+        <div class="close-button-container">
+            <a type="button" (click)="cerrarForm()"><fa-icon [icon]="faClose"></fa-icon></a>
+        </div>
+        <h3>{{ editing ? 'Modificar curso' : 'Crear nuevo curso' }}</h3>
+        <form #form="ngForm" (ngSubmit)="onSubmit()">
+            <div>
+                <label for="idCategoria">Categoría: </label>
+                <select id="idCategoria" [(ngModel)]="cursoDto.idCategoria" name="idCategoria" required>
+                    <option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{ categoria.tipo
+                        }}
+                        ({{categoria.modalidad}})</option>
+                </select><br>
+            </div>
+            <div>
+                <label for="nombre">Nombre: </label>
+                <input type="text" id="nombre" name="nombre" [(ngModel)]="cursoDto.nombre" required />
+            </div>
+            <div>
+                <label>Días:</label>
+                <div>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[0]" name="lunes" />
+                        Lunes
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[1]" name="martes" />
+                        Martes
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[2]" name="miercoles" />
+                        Miercoles
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[3]" name="jueves" />
+                        Jueves
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[4]" name="viernes" />
+                        Viernes
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[5]" name="sabado" />
+                        Sabado
+                    </label>
+                    <label>
+                        <input type="checkbox" [(ngModel)]="cursoDto.dias[6]" name="domingo" />
+                        Domingo
+                    </label>
+                </div>
+            </div>
+
+            <div>
+                <label for="fechaInicio">Start Date:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" [(ngModel)]="cursoDto.fechaInicio" timezone="America/Buenos_Aires"
+                    required />
+            </div>
+
+            <div>
+                <label for="fechaFin">End Date:</label>
+                <input type="date" id="fechaFin" name="fechaFin" [(ngModel)]="cursoDto.fechaFin" timezone="America/Buenos_Aires" required />
+            </div>
+            <div class="submit-button-container">
+                <button type="submit" [disabled]="!form.form.valid">{{ editing ? 'Modificar' : 'Crear' }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="cursos-container">
+    <h2>Cursos</h2>
+
+    <ng-container *ngIf="!isAlumno()">
+        <input type="text" [(ngModel)]="busqueda" placeholder="Buscar curso" />
+        <button (click)="crearCurso()">Crear nuevo curso</button>
+    </ng-container>
+
+    <table>
+        <thead>
+            <tr>
+                <th (click)="ordenarCursos('categoria')"> Categoria<span *ngIf="sortColumn === 'categoria'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('nombre')"> Nombre<span *ngIf="sortColumn === 'nombre'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('lunes')"> L<span *ngIf="sortColumn === 'lunes'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('martes')"> M<span *ngIf="sortColumn === 'martes'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('miercoles')"> M<span *ngIf="sortColumn === 'miercoles'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('jueves')"> J<span *ngIf="sortColumn === 'jueves'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('viernes')"> V<span *ngIf="sortColumn === 'viernes'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('sabado')"> S<span *ngIf="sortColumn === 'sabado'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('domingo')"> D<span *ngIf="sortColumn === 'domingo'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('fechaInicio')"> Inicio<span *ngIf="sortColumn === 'fechaInicio'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCursos('fechaFin')"> Fin<span *ngIf="sortColumn === 'fechaFin'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <ng-container *ngIf="!isAlumno()">
+                    <th>Acciones</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let curso of filteredCursos">
+                <td class="categoria">{{ curso.categoriaTipo }}</td>
+                <td class="nombre">{{ curso.nombre }}</td>
+
+                <td class="dia">
+                    <fa-icon *ngIf="curso.lunes" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.lunes" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+
+                <td class="dia">
+                    <fa-icon *ngIf="curso.martes" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.martes" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+                
+                <td class="dia">
+                    <fa-icon *ngIf="curso.miercoles" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.miercoles" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+
+                <td class="dia">
+                    <fa-icon *ngIf="curso.jueves" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.jueves" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+
+                <td class="dia">
+                    <fa-icon *ngIf="curso.viernes" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.viernes" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+
+                <td class="dia">
+                    <fa-icon *ngIf="curso.sabado" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.sabado" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+
+                <td class="dia">
+                    <fa-icon *ngIf="curso.domingo" [icon]="faCheck" style="color: green;"></fa-icon>
+                    <fa-icon *ngIf="!curso.domingo" [icon]="faClose" style="color: red;"></fa-icon>
+                </td>
+
+                <td class="fecha">{{ curso.fechaInicio | date: 'dd/MM/yyyy' }}</td>
+                <td class="fecha">{{ curso.fechaFin | date: 'dd/MM/yyyy' }}</td> 
+                <ng-container *ngIf="!isAlumno()">
+                    <td>
+                        <button (click)="modificarCurso(curso.idCurso)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                        <ng-container *ngIf="isAdmin()">
+                            <button (click)="eliminarCurso(curso.idCurso)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+</div>

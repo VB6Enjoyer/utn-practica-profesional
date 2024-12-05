@@ -1,0 +1,75 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <div class="close-button-container">
+                <a type="button" (click)="cerrarForm()"><fa-icon [icon]="faClose"></fa-icon></a>
+            </div>
+            <h3>{{ editing ? 'Modificar categoria' : 'Crear nueva categoria' }}</h3>
+            <label for="tipo">Tipo: </label>
+            <input id="tipo" type="text" [(ngModel)]="categoriaDto.tipo" name="tipo" required>
+            <br>
+            <label for="peso">Peso: </label>
+            <input id="peso" type="number" [(ngModel)]="categoriaDto.peso" name="peso" required><br>
+            <br>
+            <label for="modalidad">Modalidad:</label>
+            <div id="modalidad">
+                <label>
+                    <input type="radio" [(ngModel)]="categoriaDto.modalidad" name="modalidad" value="Profesional"
+                        required>
+                    Profesional
+                </label>
+                <label>
+                    <input type="radio" [(ngModel)]="categoriaDto.modalidad" name="modalidad" value="Amateur" required>
+                    Amateur
+                </label>
+            </div>
+            <div class="submit-button-container">
+                <button type="submit">{{ editing ? 'Modificar' : 'Crear' }}</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="categorias-container">
+    <h2>Categorías</h2>
+
+    <input type="text" [(ngModel)]="busqueda" placeholder="Buscar categoría" />
+
+    <button (click)="crearCategoria()">Crear nueva categoria</button>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th (click)="ordenarCategorias('tipo')"> Tipo<span *ngIf="sortColumn === 'tipo'">{{ sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarCategorias('peso')">Peso <span *ngIf="sortColumn === 'peso'">{{
+                        sortDirection ? '↑'
+                        : '↓' }}</span></th>
+                <th (click)="ordenarCategorias('modalidad')">Modalidad <span *ngIf="sortColumn === 'modalidad'">{{
+                        sortDirection
+                        ?
+                        '↑' : '↓'
+                        }}</span></th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let categoria of filteredCategorias">
+                <td class="categoriaTipo">{{ categoria.tipo }}</td>
+                <td class="categoriaPeso">{{ categoria.peso }}</td>
+                <td class="categoriaModalidad">{{ categoria.modalidad }}</td>
+                <td>
+                    <button (click)="modificarCategoria(categoria.idCategoria)"><fa-icon
+                            [icon]="faEdit"></fa-icon></button>
+                            <ng-container *ngIf="isAdmin()">
+                                <button (click)="eliminarCategoria(categoria.idCategoria)"><fa-icon
+                                        [icon]="faTrash"></fa-icon></button>
+                            </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

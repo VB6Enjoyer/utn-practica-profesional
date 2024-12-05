@@ -1,0 +1,94 @@
+<!-- Modal for creating a new routine -->
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <div class="close-button-container">
+                <a type="button" (click)="cerrarForm()"><fa-icon [icon]="faClose"></fa-icon></a>
+            </div>
+            <h3>{{ editing ? 'Modificar rutina' : 'Crear nueva rutina' }}</h3>
+            <label for="nombre">Nombre:</label>
+            <input id="nombre" type="text" [(ngModel)]="rutinaDto.nombre" name="nombre" required>
+            <br>
+            <label for="idCategoria">Categoría:</label>
+            <select id="idCategoria" [(ngModel)]="rutinaDto.idCategoria" name="idCategoria" required>
+                <option *ngFor="let categoria of categorias" [value]="categoria.idCategoria">{{ categoria.tipo }}
+                    ({{categoria.modalidad}})</option>
+            </select>
+            <br>
+            <label for="horario">Horario:</label>
+            <input id="horario" type="time" [(ngModel)]="rutinaDto.horario" name="horario" required><br>
+
+            <div class="submit-button-container">
+                <button type="submit">{{ editing ? 'Modificar' : 'Crear' }}</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Modal para ver los ejercicios del alumno -->
+
+<div class="modal" *ngIf="isModalAlumnoOpen">
+    <div class="modal-content">
+        <div class="close-button-container">
+            <a type="button" (click)="cerrarForm()"><fa-icon [icon]="faClose"></fa-icon></a>
+        </div>
+        <ul *ngFor="let ejercicio of ejercicios">
+            <li> {{ejercicio.ejercicio}} </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="rutinas-container">
+    <h2>Rutinas</h2>
+
+    <ng-container *ngIf="!isAlumno()">
+        <!-- Search bar -->
+        <input type="text" [(ngModel)]="busqueda" placeholder="Buscar rutina" />
+        <!-- Button to create a new entry -->
+        <button (click)="crearRutina()">Crear nueva rutina</button>
+    </ng-container>
+
+
+    <!-- Table for displaying routines -->
+    <table>
+        <thead>
+            <tr>
+                <th (click)="ordenarRutinas('nombre')">Nombre <span *ngIf="sortColumn === 'nombre'">{{ sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th (click)="ordenarRutinas('categoriaTipo')">Categoría <span *ngIf="sortColumn === 'categoriaTipo'">{{
+                        sortDirection ? '↑'
+                        : '↓' }}</span></th>
+                <th (click)="ordenarRutinas('horario')">Horario <span *ngIf="sortColumn === 'horario'">{{ sortDirection
+                        ?
+                        '↑' : '↓'
+                        }}</span></th>
+                <th>{{ isAlumno() ? 'Ejercicios' : 'Acciones' }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rutina of filteredRutinas">
+                <td class="rutinaNombre">{{ rutina.nombre }}</td>
+                <td class="rutinaTipo">{{ rutina.categoriaTipo }}</td>
+                <td class="rutinaHorario">{{ rutina.horario }}</td>
+                <ng-container *ngIf="isAlumno()">
+                    <td>
+                        <button (click)="consultarEjerciciosDeRutinas(rutina.idRutina)"><fa-icon
+                                [icon]="faEye"></fa-icon></button>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="!isAlumno()">
+                    <td>
+                        <!-- Edit and Delete buttons for each entry -->
+                        <button (click)="modificarRutina(rutina.idRutina)"><fa-icon [icon]="faEdit"></fa-icon></button>
+                        <ng-container *ngIf="isAdmin()">
+                            <button (click)="eliminarRutina(rutina.idRutina)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                        </ng-container>
+                    </td>
+                </ng-container>
+            </tr>
+        </tbody>
+    </table>
+</div>

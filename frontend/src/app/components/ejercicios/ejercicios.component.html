@@ -1,0 +1,50 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+    <div class="modal" *ngIf="isModalOpen">
+        <div class="modal-content">
+            <div class="close-button-container">
+                <a type="button" (click)="cerrarForm()"><fa-icon [icon]="faClose"></fa-icon></a>
+            </div>
+            <h3>{{ editing ? 'Modificar ejercicio' : 'Crear nuevo ejercicio' }}</h3>
+            <label for="ejercicio">Ejercicio: </label>
+            <input id="ejercicio" type="text" [(ngModel)]="ejercicioDto.ejercicio" name="ejercicio" required>
+            <div class="submit-button-container">
+                <button type="submit">{{ editing ? 'Modificar' : 'Crear' }}</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="ejercicios-container">
+    <h2>Ejercicios</h2>
+
+    <input type="text" [(ngModel)]="busqueda" placeholder="Buscar ejercicio" />
+
+    <button (click)="crearEjercicio()">Crear nuevo ejercicio</button>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th (click)="ordenarEjercicios('ejercicio')"> Ejercicio<span *ngIf="sortColumn === 'ejercicio'">{{
+                        sortDirection ?
+                        '↑'
+                        : '↓' }}</span>
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ejercicio of filteredEjercicios">
+                <td class="ejercicio">{{ ejercicio.ejercicio }}</td>
+                <td>
+                    <button (click)="modificarEjercicio(ejercicio.idEjercicio)"><fa-icon
+                            [icon]="faEdit"></fa-icon></button> 
+                            <ng-container *ngIf="isAdmin()">
+                                <button (click)="eliminarEjercicio(ejercicio.idEjercicio)"><fa-icon
+                                        [icon]="faTrash"></fa-icon></button>
+                            </ng-container>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

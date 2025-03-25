@@ -2,7 +2,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 const config: TypeOrmModuleOptions = {
   type: 'mysql',
-  host: 'localhost',
+  host: '181.80.233.177',
   port: 3306,
   username: 'root',
   password: '',

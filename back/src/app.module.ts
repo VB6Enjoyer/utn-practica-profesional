@@ -12,7 +12,7 @@ import { RutinasModule } from './rutinas/rutinas.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '181.80.233.177',
       port: 3306,
       username: 'username',
       password: 'password',

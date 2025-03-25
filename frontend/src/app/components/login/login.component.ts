@@ -18,8 +18,8 @@ export class LoginComponent {
   constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) { }
 
   onSubmit() {
-    //this.httpClient.post('http://vb6enjoyer.ddns.net:3000/api/auth/login', { username: this.username, password: this.password })
-    this.httpClient.post('http://vb6enjoyer.ddns.net:3000/api/auth/login', { username: this.username, password: this.password })
+    //this.httpClient.post('localhost:3000/api/auth/login', { username: this.username, password: this.password })
+    this.httpClient.post('https://gimnasio-backend-1orh.onrender.com/api/auth/login', { username: this.username, password: this.password })
       .subscribe(
         (response: any) => {
           localStorage.setItem('token', response.token);

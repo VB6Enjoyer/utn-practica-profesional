@@ -7,8 +7,8 @@ import { EjercicioDto } from './ejercicio.dto';
   providedIn: 'root',
 })
 export class EjerciciosService {
-  //private apiUrl = 'http://vb6enjoyer.ddns.net:3000/api/ejercicios';
-  private apiUrl = "http://vb6enjoyer.ddns.net:3000/api/ejercicios"
+  //private apiUrl = 'localhost:3000/api/ejercicios';
+  private apiUrl = "https://gimnasio-backend-1orh.onrender.com/api/ejercicios"
 
   constructor(private http: HttpClient) { }
 

@@ -7,8 +7,8 @@ import { ElementoDto } from './elemento.dto';
   providedIn: 'root',
 })
 export class ElementosService {
-  //private apiUrl = 'http://vb6enjoyer.ddns.net:3000/api/elementos';
-  private apiUrl = "http://vb6enjoyer.ddns.net:3000/api/elementos"
+  //private apiUrl = 'localhost:3000/api/elementos';
+  private apiUrl = "https://gimnasio-backend-1orh.onrender.com/api/elementos"
 
   constructor(private http: HttpClient) { }
 

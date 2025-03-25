@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class UsuariosService {
-    private apiUrl = 'http://vb6enjoyer.ddns.net:3000/api/usuarios';  // Asegúrate de que la URL sea correcta
+    private apiUrl = 'https://gimnasio-backend-1orh.onrender.com/api/usuarios';  // Asegúrate de que la URL sea correcta
 
     constructor(private http: HttpClient) { }
 

@@ -7,8 +7,8 @@ import { RutinaDto } from './rutina.dto';
   providedIn: 'root',
 })
 export class RutinasService {
-  //private apiUrl = 'http://vb6enjoyer.ddns.net:3000/api/rutinas';
-  private apiUrl = "http://vb6enjoyer.ddns.net:3000/api/rutinas";
+  //private apiUrl = 'localhost:3000/api/rutinas';
+  private apiUrl = "https://gimnasio-backend-1orh.onrender.com/api/rutinas";
 
   constructor(private http: HttpClient) { }
 

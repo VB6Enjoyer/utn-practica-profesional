@@ -7,8 +7,8 @@ import { CategoriaDto } from './categoria.dto';
   providedIn: 'root',
 })
 export class CategoriasService {
-  //private apiUrl = 'http://vb6enjoyer.ddns.net:3000/api/categorias';
-  private apiUrl = "http://vb6enjoyer.ddns.net:3000/api/categorias";
+  //private apiUrl = 'localhost:3000/api/categorias';
+  private apiUrl = "https://gimnasio-backend-1orh.onrender.com/api/categorias";
 
   constructor(private http: HttpClient) { }
 

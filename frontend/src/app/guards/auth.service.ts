@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  //private apiUrl = 'https://vb6enjoyer.ddns.net:3000/api/auth/login';
-  private apiUrl = "http://vb6enjoyer.ddns.net:3000/api/auth/login"
+  //private apiUrl = 'localhost:3000/api/auth/login';
+  private apiUrl = "https://gimnasio-backend-1orh.onrender.com/api/auth/login"
 
   getRol(): string {
     const token: any = localStorage.getItem('token');

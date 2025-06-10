@@ -12,11 +12,11 @@ import { RutinasModule } from './rutinas/rutinas.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'sql202.infinityfree.com',
+      host: 'sql108.byethost17.com',
       port: 3306,
-      username: 'if0_39195419',
-      password: 'WCnsd8v2gHA30zJ',
-      database: 'if0_39195419_gimnasio',
+      username: 'b17_39195534',
+      password: 'DB_PASSWORD',
+      database: 'b17_39195534_gimnasio',
       autoLoadEntities: true,
       synchronize: false,
       logger: 'advanced-console'
